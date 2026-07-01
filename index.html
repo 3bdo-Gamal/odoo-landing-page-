@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#6B3FD4">
     <title>Odoonova — Intelligent ERP Powered by AI | Graduation Project</title>
     <meta name="description"
         content="Odoonova is a university graduation project demonstrating an AI-enhanced Odoo ERP platform with forecasting, business intelligence, and automation.">
@@ -44,19 +45,32 @@
     </script>
 
     <style>
+        /* ===== DESIGN TOKENS ===== */
         :root {
             --grad: linear-gradient(135deg, #6B3FD4 0%, #4361EE 100%);
             --grad-soft: linear-gradient(135deg, rgba(107, 63, 212, 0.10) 0%, rgba(67, 97, 238, 0.10) 100%);
+            /* Fluid spacing */
+            --section-py: clamp(3.5rem, 8vw, 6rem);
+            --container-px: clamp(1rem, 4vw, 2rem);
         }
+
+        /* ===== BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; }
 
         html {
             scroll-behavior: smooth;
+            /* prevent horizontal overflow on every viewport */
+            overflow-x: hidden;
+            /* support notched phones */
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
 
         body {
             font-family: 'Inter', sans-serif;
             color: #14102B;
             background: #FAF9FF;
+            overflow-x: hidden;
+            min-width: 320px; /* smallest supported width */
         }
 
         [dir="rtl"] body,
@@ -64,151 +78,140 @@
             font-family: 'Cairo', sans-serif;
         }
 
+        /* ===== UTILITY ===== */
         .grad-text {
             background: var(--grad);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
+        .grad-bg  { background: var(--grad); }
+        .grad-border { border-image: var(--grad) 1; }
 
-        .grad-bg {
-            background: var(--grad);
-        }
+        /* ===== FLUID TYPOGRAPHY ===== */
+        /* Hero h1 */
+        .hero-h1 { font-size: clamp(1.75rem, 5vw + 0.5rem, 3.75rem); line-height: 1.1; }
+        /* Section h2 */
+        .section-h2 { font-size: clamp(1.5rem, 3.5vw + 0.25rem, 2.5rem); }
+        /* Body text */
+        .body-lg { font-size: clamp(0.95rem, 1.5vw + 0.3rem, 1.125rem); }
 
-        .grad-border {
-            border-image: var(--grad) 1;
-        }
-
-        /* Navbar scroll shadow */
+        /* ===== NAVBAR ===== */
         .nav-shadow {
             box-shadow: 0 8px 30px -12px rgba(20, 16, 43, 0.15);
         }
 
-        /* Animations */
+        /* ensure logo never overflows on tiny phones */
+        .logo-img { height: clamp(2.25rem, 6vw, 3.5rem); width: auto; object-fit: contain; }
+        .logo-text { font-size: clamp(0.9rem, 2.5vw, 1.25rem); }
+
+        /* Minimum touch target size (WCAG 2.5.5) */
+        a, button { min-height: 44px; min-width: 44px; }
+        a.inline-flex, button.inline-flex,
+        a.flex,       button.flex        { display: inline-flex; align-items: center; }
+
+        /* ===== ANIMATIONS ===== */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(24px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to   { opacity: 1; }
         }
-
         @keyframes floatY {
-
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-14px);
-            }
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-14px); }
         }
-
         @keyframes drawLine {
-            from {
-                stroke-dashoffset: 400;
-            }
-
-            to {
-                stroke-dashoffset: 0;
-            }
+            from { stroke-dashoffset: 400; }
+            to   { stroke-dashoffset: 0; }
         }
-
         @keyframes pulseDot {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: .6;
-                transform: scale(1.25);
-            }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: .6; transform: scale(1.25); }
         }
 
-        .animate-fadeInUp {
-            animation: fadeInUp .8s ease-out both;
-        }
+        .animate-fadeInUp { animation: fadeInUp .8s ease-out both; }
+        .animate-fadeIn   { animation: fadeIn 1s ease-out both; }
+        .float-anim       { animation: floatY 6s ease-in-out infinite; }
+        .draw-line        { stroke-dasharray: 400; stroke-dashoffset: 400; animation: drawLine 2s ease-out .4s forwards; }
+        .pulse-dot        { animation: pulseDot 2s ease-in-out infinite; }
 
-        .animate-fadeIn {
-            animation: fadeIn 1s ease-out both;
-        }
+        .delay-1 { animation-delay: .15s; }
+        .delay-2 { animation-delay: .3s; }
+        .delay-3 { animation-delay: .45s; }
+        .delay-4 { animation-delay: .6s; }
 
-        .float-anim {
-            animation: floatY 6s ease-in-out infinite;
-        }
-
-        .draw-line {
-            stroke-dasharray: 400;
-            stroke-dashoffset: 400;
-            animation: drawLine 2s ease-out .4s forwards;
-        }
-
-        .pulse-dot {
-            animation: pulseDot 2s ease-in-out infinite;
-        }
-
-        .delay-1 {
-            animation-delay: .15s;
-        }
-
-        .delay-2 {
-            animation-delay: .3s;
-        }
-
-        .delay-3 {
-            animation-delay: .45s;
-        }
-
-        .delay-4 {
-            animation-delay: .6s;
-        }
-
-        /* Card hover */
+        /* ===== CARDS ===== */
         .feature-card {
             transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
         }
-
         .feature-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 24px 48px -20px rgba(107, 63, 212, 0.28);
             border-color: transparent;
         }
 
+        /* ===== BUTTONS ===== */
         .btn-primary {
             transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
         }
-
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 16px 32px -12px rgba(107, 63, 212, 0.45);
             filter: brightness(1.05);
         }
 
+        /* ===== GLASS ===== */
         .glass {
             background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
         }
 
-        /* Focus visibility for accessibility */
+        /* ===== HERO SECTION ===== */
+        /* floating AI chip — keep within viewport on small screens */
+        .hero-chip {
+            position: absolute;
+            top: clamp(-1rem, -3vw, -1.5rem);
+            inset-inline-end: clamp(-0.5rem, -2vw, -1.5rem);
+        }
+        /* hero stat tags wrap gracefully */
+        .hero-tags {
+            flex-wrap: wrap;
+            gap: clamp(0.75rem, 3vw, 2rem);
+        }
+
+        /* ===== TIMELINE ===== */
+        /* horizontal scroll fallback on very small phones */
+        .timeline-track {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding-bottom: 0.5rem;
+        }
+        .timeline-track::-webkit-scrollbar { display: none; }
+        .timeline-inner {
+            min-width: 480px; /* ensures the 6-step layout is readable */
+        }
+
+        /* ===== FORM / INPUT ===== */
+        input, textarea {
+            font-size: max(16px, 1rem); /* prevents iOS auto-zoom */
+            width: 100%;
+        }
+
+        /* ===== EMAIL CARDS ===== */
+        .team-email {
+            word-break: break-all; /* long emails won't overflow */
+        }
+
+        /* ===== ACCESSIBILITY ===== */
         a:focus-visible,
         button:focus-visible,
         input:focus-visible,
@@ -218,29 +221,48 @@
             border-radius: 6px;
         }
 
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar        { width: 8px; }
+        ::-webkit-scrollbar-track  { background: #F0EEFB; }
+        ::-webkit-scrollbar-thumb  { background: var(--grad); border-radius: 8px; }
 
-        ::-webkit-scrollbar-track {
-            background: #F0EEFB;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--grad);
-            border-radius: 8px;
-        }
-
+        /* ===== REDUCED MOTION ===== */
         @media (prefers-reduced-motion: reduce) {
-            * {
+            *, *::before, *::after {
                 animation: none !important;
                 transition: none !important;
             }
         }
 
-        .lang-hidden {
-            display: none !important;
+        /* ===== XS (< 400px) specific tweaks ===== */
+        @media (max-width: 399px) {
+            /* stack hero buttons as full width */
+            .hero-btn-group { flex-direction: column; }
+            .hero-btn-group > * { width: 100%; }
+            /* shrink section padding */
+            section { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+            /* nav height */
+            nav.nav-inner { height: 64px !important; }
         }
+
+        /* ===== LARGE (≥ 1536px) tweaks ===== */
+        @media (min-width: 1536px) {
+            .max-w-7xl { max-width: 1400px; }
+        }
+
+        /* ===== 4K / UHD ===== */
+        @media (min-width: 2560px) {
+            html { font-size: 20px; }
+            .max-w-7xl { max-width: 1600px; }
+        }
+
+        /* ===== PRINT ===== */
+        @media print {
+            header, footer, #contact { display: none; }
+            body { font-size: 12pt; color: #000; background: #fff; }
+        }
+
+        .lang-hidden { display: none !important; }
     </style>
 </head>
 
@@ -248,16 +270,15 @@
 
     <!-- ============ NAVBAR ============ -->
     <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-shadow duration-300 glass">
-        <nav class="max-w-7xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between" aria-label="Main navigation">
+        <nav class="nav-inner max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4" aria-label="Main navigation">
 
             <!-- Logo -->
             <a href="#home" class="flex items-center gap-3 shrink-0" aria-label="Odoonova home">
 
                 <!-- تم استبدال الـ SVG بـصورة اللوجو الخاص بك -->
-                <img src="Project-03.png" alt="My Logo" class="h-14 w-auto object-contain">
+                <img src="Project-03.png" alt="My Logo" class="logo-img">
 
-                <span class="text-xl font-extrabold tracking-tight text-ink">Odoo<span
-                        class="grad-text">nova</span></span>
+                <span class="logo-text font-extrabold tracking-tight text-ink">Odoo<span class="grad-text">nova</span></span>
             </a>
 
             <!-- Desktop links -->
@@ -349,7 +370,7 @@
                 </p>
 
                 <div
-                    class="animate-fadeInUp delay-3 mt-9 flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+                    class="hero-btn-group animate-fadeInUp delay-3 mt-9 flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
                     <a href="#features"
                         class="btn-primary grad-bg text-white font-bold px-8 py-4 rounded-full shadow-xl shadow-primary/25 w-full sm:w-auto text-center"
                         data-i18n="hero_btn_primary">
@@ -363,7 +384,7 @@
                 </div>
 
                 <div
-                    class="animate-fadeInUp delay-4 mt-12 flex items-center gap-8 justify-center lg:justify-start text-ink/50 text-sm font-semibold">
+                    class="hero-tags animate-fadeInUp delay-4 mt-12 flex items-center justify-center lg:justify-start text-ink/50 text-sm font-semibold">
                     <span class="flex items-center gap-2"><i class="fa-solid fa-robot text-primary"
                             aria-hidden="true"></i><span data-i18n="hero_tag_1">AI Assistant</span></span>
                     <span class="flex items-center gap-2"><i class="fa-solid fa-chart-line text-primary"
@@ -374,8 +395,8 @@
             </div>
 
             <!-- Dashboard illustration -->
-            <div class="relative animate-fadeIn delay-2">
-                <div class="float-anim relative mx-auto max-w-lg">
+            <div class="relative animate-fadeIn delay-2 min-w-0">
+                <div class="float-anim relative mx-auto max-w-lg w-full">
                     <svg viewBox="0 0 520 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto drop-shadow-2xl"
                         role="img"
                         aria-label="Illustration of the Odoonova AI dashboard showing forecasting charts and analytics widgets">
@@ -448,7 +469,7 @@
                     </svg>
 
                     <!-- floating AI chip -->
-                    <div class="absolute -top-6 -end-6 glass border border-primary/15 rounded-2xl px-4 py-3 shadow-xl flex items-center gap-2 float-anim"
+                    <div class="hero-chip glass border border-primary/15 rounded-2xl px-3 py-2 sm:px-4 sm:py-3 shadow-xl flex items-center gap-2 float-anim"
                         style="animation-delay: -3s;">
                         <span
                             class="w-8 h-8 rounded-full grad-bg flex items-center justify-center text-white text-sm"><i
@@ -592,13 +613,8 @@
                 </div>
                 <div
                     class="feature-card flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-ink/8 text-center">
-                    <i class="fa-brands fa-html5 text-2xl text-primary" aria-hidden="true"></i>
-                    <span class="text-sm font-bold text-ink">HTML5</span>
-                </div>
-                <div
-                    class="feature-card flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-ink/8 text-center">
-                    <i class="fa-solid fa-wind text-2xl text-primary" aria-hidden="true"></i>
-                    <span class="text-sm font-bold text-ink">Tailwind CSS</span>
+                    <i class="fa-solid fa-file-code text-2xl text-primary" aria-hidden="true"></i>
+                    <span class="text-sm font-bold text-ink">XML</span>
                 </div>
                 <div
                     class="feature-card flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-ink/8 text-center">
@@ -727,10 +743,11 @@
                     Process</h2>
             </div>
 
-            <div class="mt-16 relative">
+            <div class="mt-16 timeline-track">
+                <div class="timeline-inner relative">
                 <div class="hidden sm:block absolute top-6 start-6 end-6 h-0.5" style="background: var(--grad);"
                     aria-hidden="true"></div>
-                <div class="grid sm:grid-cols-6 gap-8 sm:gap-4">
+                <div class="grid grid-cols-6 gap-4">
 
                     <div class="text-center relative animate-fadeInUp">
                         <div
@@ -770,7 +787,8 @@
                     </div>
 
                 </div>
-            </div>
+                </div><!-- /timeline-inner -->
+            </div><!-- /timeline-track -->
         </div>
     </section>
 
@@ -889,7 +907,7 @@
                             <span class="min-w-0">
                                 <span class="block text-sm font-bold text-ink" data-i18n="team_leader">Project
                                     Leader</span>
-                                <span class="block text-xs text-ink/55 truncate">Abdalrhmangamaleldien@gmail.com</span>
+                                <span class="block text-xs text-ink/55 team-email">Abdalrhmangamaleldien@gmail.com</span>
                             </span>
                         </a>
                         <a href="mailto:kyrillos.eid22@gmail.com"
@@ -900,7 +918,7 @@
                             <span class="min-w-0">
                                 <span class="block text-sm font-bold text-ink"><span
                                         data-i18n="team_member">Member</span> 1</span>
-                                <span class="block text-xs text-ink/55 truncate">kyrillos.eid22@gmail.com</span>
+                                <span class="block text-xs text-ink/55 team-email">kyrillos.eid22@gmail.com</span>
                             </span>
                         </a>
                         <a href="mailto:Mennaramadanabdallah@gmail.com"
@@ -911,7 +929,7 @@
                             <span class="min-w-0">
                                 <span class="block text-sm font-bold text-ink"><span
                                         data-i18n="team_member">Member</span> 2</span>
-                                <span class="block text-xs text-ink/55 truncate">Mennaramadanabdallah@gmail.com</span>
+                                <span class="block text-xs text-ink/55 team-email">Mennaramadanabdallah@gmail.com</span>
                             </span>
                         </a>
                         <a href="mailto:mernaelia1234@gmail.com"
@@ -922,7 +940,7 @@
                             <span class="min-w-0">
                                 <span class="block text-sm font-bold text-ink"><span
                                         data-i18n="team_member">Member</span> 3</span>
-                                <span class="block text-xs text-ink/55 truncate">mernaelia1234@gmail.com</span>
+                                <span class="block text-xs text-ink/55 team-email">mernaelia1234@gmail.com</span>
                             </span>
                         </a>
                         <a href="mailto:salmawaheed92004@gmail.com"
@@ -933,7 +951,7 @@
                             <span class="min-w-0">
                                 <span class="block text-sm font-bold text-ink"><span
                                         data-i18n="team_member">Member</span> 4</span>
-                                <span class="block text-xs text-ink/55 truncate">salmawaheed92004@gmail.com</span>
+                                <span class="block text-xs text-ink/55 team-email">salmawaheed92004@gmail.com</span>
                             </span>
                         </a>
                         <a href="mailto:shahdmstfy29@gmail.com"
@@ -944,7 +962,7 @@
                             <span class="min-w-0">
                                 <span class="block text-sm font-bold text-ink"><span
                                         data-i18n="team_member">Member</span> 5</span>
-                                <span class="block text-xs text-ink/55 truncate">shahdmstfy29@gmail.com</span>
+                                <span class="block text-xs text-ink/55 team-email">shahdmstfy29@gmail.com</span>
                             </span>
                         </a>
                     </div>

@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odoonova — Intelligent ERP Powered by AI | Graduation Project</title>
+    <meta name="description"
+        content="Odoonova is a university graduation project demonstrating an AI-enhanced Odoo ERP platform with forecasting, business intelligence, and automation.">
+    <meta property="og:title" content="Odoonova — Intelligent ERP Powered by AI">
+    <meta property="og:description"
+        content="A graduation project exploring how Artificial Intelligence can enhance Odoo ERP through forecasting, analytics, and automation.">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { DEFAULT: '#6B3FD4', dark: '#4C2A9E', light: '#8B63E8' },
+                        secondary: { DEFAULT: '#4361EE', light: '#6E85F5' },
+                        ink: '#14102B',
+                        mist: '#FAF9FF',
+                    },
+                    fontFamily: {
+                        en: ['Inter', 'sans-serif'],
+                        ar: ['Cairo', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --grad: linear-gradient(135deg, #6B3FD4 0%, #4361EE 100%);
+            --grad-soft: linear-gradient(135deg, rgba(107, 63, 212, 0.10) 0%, rgba(67, 97, 238, 0.10) 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #14102B;
+            background: #FAF9FF;
+        }
+
+        [dir="rtl"] body,
+        [dir="rtl"] * {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .grad-text {
+            background: var(--grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .grad-bg {
+            background: var(--grad);
+        }
+
+        .grad-border {
+            border-image: var(--grad) 1;
+        }
+
+        /* Navbar scroll shadow */
+        .nav-shadow {
+            box-shadow: 0 8px 30px -12px rgba(20, 16, 43, 0.15);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes floatY {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-14px);
+            }
+        }
+
+        @keyframes drawLine {
+            from {
+                stroke-dashoffset: 400;
+            }
+
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes pulseDot {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: .6;
+                transform: scale(1.25);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp .8s ease-out both;
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 1s ease-out both;
+        }
+
+        .float-anim {
+            animation: floatY 6s ease-in-out infinite;
+        }
+
+        .draw-line {
+            stroke-dasharray: 400;
+            stroke-dashoffset: 400;
+            animation: drawLine 2s ease-out .4s forwards;
+        }
+
+        .pulse-dot {
+            animation: pulseDot 2s ease-in-out infinite;
+        }
+
+        .delay-1 {
+            animation-delay: .15s;
+        }
+
+        .delay-2 {
+            animation-delay: .3s;
+        }
+
+        .delay-3 {
+            animation-delay: .45s;
+        }
+
+        .delay-4 {
+            animation-delay: .6s;
+        }
+
+        /* Card hover */
+        .feature-card {
+            transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 48px -20px rgba(107, 63, 212, 0.28);
+            border-color: transparent;
+        }
+
+        .btn-primary {
+            transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px -12px rgba(107, 63, 212, 0.45);
+            filter: brightness(1.05);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        /* Focus visibility for accessibility */
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid #4361EE;
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #F0EEFB;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--grad);
+            border-radius: 8px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        .lang-hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- ============ NAVBAR ============ -->
+    <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-shadow duration-300 glass">
+        <nav class="max-w-7xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between" aria-label="Main navigation">
+
+            <!-- Logo -->
+            <a href="#home" class="flex items-center gap-3 shrink-0" aria-label="Odoonova home">
+
+                <!-- تم استبدال الـ SVG بـصورة اللوجو الخاص بك -->
+                <img src="Project-03.png" alt="My Logo" class="h-14 w-auto object-contain">
+
+                <span class="text-xl font-extrabold tracking-tight text-ink">Odoo<span
+                        class="grad-text">nova</span></span>
+            </a>
+
+            <!-- Desktop links -->
+            <ul class="hidden lg:flex items-center gap-9 text-sm font-semibold text-ink/80">
+                <li><a href="#home" class="hover:text-primary transition-colors" data-i18n="nav_home">Home</a></li>
+                <li><a href="#features" class="hover:text-primary transition-colors"
+                        data-i18n="nav_features">Features</a></li>
+                <li><a href="#services" class="hover:text-primary transition-colors"
+                        data-i18n="nav_services">Services</a></li>
+                <li><a href="#about" class="hover:text-primary transition-colors" data-i18n="nav_about">About
+                        Project</a></li>
+                <li><a href="#contact" class="hover:text-primary transition-colors" data-i18n="nav_contact">Contact</a>
+                </li>
+            </ul>
+
+            <div class="hidden lg:flex items-center gap-4">
+                <!-- Language switcher -->
+                <button id="langToggle" type="button"
+                    class="flex items-center gap-2 px-4 py-2 rounded-full border border-ink/10 text-sm font-semibold text-ink/80 hover:border-primary hover:text-primary transition-colors"
+                    aria-label="Switch language">
+                    <i class="fa-solid fa-globe" aria-hidden="true"></i>
+                    <span id="langLabel">العربية</span>
+                </button>
+                <a href="#features"
+                    class="btn-primary grad-bg text-white text-sm font-bold px-6 py-3 rounded-full shadow-lg shadow-primary/20"
+                    data-i18n="nav_cta">Explore Project</a>
+            </div>
+
+            <!-- Mobile toggle -->
+            <button id="mobileMenuBtn" class="lg:hidden text-ink text-2xl" aria-label="Open menu" aria-expanded="false"
+                aria-controls="mobileMenu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </nav>
+
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="lg:hidden hidden glass border-t border-ink/5">
+            <ul class="flex flex-col gap-1 px-5 py-4 text-base font-semibold text-ink/80">
+                <li><a href="#home" class="block py-2.5" data-i18n="nav_home">Home</a></li>
+                <li><a href="#features" class="block py-2.5" data-i18n="nav_features">Features</a></li>
+                <li><a href="#services" class="block py-2.5" data-i18n="nav_services">Services</a></li>
+                <li><a href="#about" class="block py-2.5" data-i18n="nav_about">About Project</a></li>
+                <li><a href="#contact" class="block py-2.5" data-i18n="nav_contact">Contact</a></li>
+                <li class="pt-2">
+                    <button id="langToggleMobile" type="button"
+                        class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full border border-ink/10 text-sm font-semibold">
+                        <i class="fa-solid fa-globe" aria-hidden="true"></i>
+                        <span id="langLabelMobile">العربية</span>
+                    </button>
+                </li>
+                <li class="pt-2">
+                    <a href="#features"
+                        class="btn-primary grad-bg text-white text-center block text-sm font-bold px-6 py-3 rounded-full"
+                        data-i18n="nav_cta">Explore Project</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- ============ HERO ============ -->
+    <section id="home" class="relative pt-40 pb-24 sm:pt-48 sm:pb-32 overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute inset-0 -z-10" aria-hidden="true">
+            <div class="absolute -top-40 -right-40 w-[32rem] h-[32rem] rounded-full opacity-30 blur-3xl"
+                style="background: var(--grad);"></div>
+            <div class="absolute top-1/2 -left-32 w-96 h-96 rounded-full opacity-20 blur-3xl"
+                style="background: var(--grad);"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-16 items-center">
+            <!-- Copy -->
+            <div class="text-center lg:text-start">
+                <span
+                    class="animate-fadeInUp inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-primary/15 text-xs font-bold text-primary tracking-wide"
+                    data-i18n="hero_badge">
+                    UNIVERSITY GRADUATION PROJECT
+                </span>
+
+                <h1
+                    class="animate-fadeInUp delay-1 mt-6 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-ink">
+                    <span data-i18n="hero_title_1">Transform Business Management</span>
+                    <span class="grad-text block" data-i18n="hero_title_2">with Intelligent ERP</span>
+                </h1>
+
+                <p class="animate-fadeInUp delay-2 mt-6 text-lg text-ink/60 leading-relaxed max-w-xl mx-auto lg:mx-0"
+                    data-i18n="hero_subtitle">
+                    Odoonova combines Odoo ERP, Artificial Intelligence, Business Intelligence, and Forecasting into one
+                    intelligent platform — automating operations and turning raw data into clear decisions.
+                </p>
+
+                <div
+                    class="animate-fadeInUp delay-3 mt-9 flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+                    <a href="#features"
+                        class="btn-primary grad-bg text-white font-bold px-8 py-4 rounded-full shadow-xl shadow-primary/25 w-full sm:w-auto text-center"
+                        data-i18n="hero_btn_primary">
+                        Explore Project
+                    </a>
+                    <a href="#about"
+                        class="btn-primary bg-white text-ink font-bold px-8 py-4 rounded-full border border-ink/10 w-full sm:w-auto text-center"
+                        data-i18n="hero_btn_secondary">
+                        Learn More
+                    </a>
+                </div>
+
+                <div
+                    class="animate-fadeInUp delay-4 mt-12 flex items-center gap-8 justify-center lg:justify-start text-ink/50 text-sm font-semibold">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-robot text-primary"
+                            aria-hidden="true"></i><span data-i18n="hero_tag_1">AI Assistant</span></span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-chart-line text-primary"
+                            aria-hidden="true"></i><span data-i18n="hero_tag_2">Forecasting</span></span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-diagram-project text-primary"
+                            aria-hidden="true"></i><span data-i18n="hero_tag_3">Automation</span></span>
+                </div>
+            </div>
+
+            <!-- Dashboard illustration -->
+            <div class="relative animate-fadeIn delay-2">
+                <div class="float-anim relative mx-auto max-w-lg">
+                    <svg viewBox="0 0 520 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto drop-shadow-2xl"
+                        role="img"
+                        aria-label="Illustration of the Odoonova AI dashboard showing forecasting charts and analytics widgets">
+                        <defs>
+                            <linearGradient id="cardGrad" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0" stop-color="#6B3FD4" />
+                                <stop offset="1" stop-color="#4361EE" />
+                            </linearGradient>
+                            <linearGradient id="barGrad" x1="0" y1="1" x2="0" y2="0">
+                                <stop offset="0" stop-color="#4361EE" />
+                                <stop offset="1" stop-color="#8B63E8" />
+                            </linearGradient>
+                        </defs>
+
+                        <!-- base panel -->
+                        <rect x="10" y="10" width="500" height="380" rx="24" fill="#ffffff" stroke="#ECE9FA"
+                            stroke-width="2" />
+
+                        <!-- top bar -->
+                        <rect x="10" y="10" width="500" height="52" rx="24" fill="url(#cardGrad)" />
+                        <rect x="10" y="38" width="500" height="24" fill="url(#cardGrad)" />
+                        <circle cx="38" cy="36" r="6" fill="#ffffff" opacity="0.85" />
+                        <circle cx="58" cy="36" r="6" fill="#ffffff" opacity="0.6" />
+                        <circle cx="78" cy="36" r="6" fill="#ffffff" opacity="0.4" />
+                        <rect x="330" y="26" width="150" height="20" rx="10" fill="#ffffff" opacity="0.18" />
+
+                        <!-- KPI cards -->
+                        <g>
+                            <rect x="34" y="86" width="140" height="86" rx="16" fill="#F5F2FF" />
+                            <text x="52" y="118" font-family="Inter, sans-serif" font-size="12" fill="#6E6B80"
+                                font-weight="600">FORECAST</text>
+                            <text x="52" y="148" font-family="Inter, sans-serif" font-size="24" fill="#14102B"
+                                font-weight="800">+27.4%</text>
+                        </g>
+                        <g>
+                            <rect x="190" y="86" width="140" height="86" rx="16" fill="#EFF2FE" />
+                            <text x="208" y="118" font-family="Inter, sans-serif" font-size="12" fill="#6E6B80"
+                                font-weight="600">AUTOMATION</text>
+                            <text x="208" y="148" font-family="Inter, sans-serif" font-size="24" fill="#14102B"
+                                font-weight="800">86%</text>
+                        </g>
+                        <g>
+                            <rect x="346" y="86" width="140" height="86" rx="16" fill="#F5F2FF" />
+                            <text x="364" y="118" font-family="Inter, sans-serif" font-size="12" fill="#6E6B80"
+                                font-weight="600">AI INSIGHTS</text>
+                            <text x="364" y="148" font-family="Inter, sans-serif" font-size="24" fill="#14102B"
+                                font-weight="800">128</text>
+                        </g>
+
+                        <!-- chart card -->
+                        <rect x="34" y="192" width="452" height="176" rx="16" fill="#FAF9FF" stroke="#ECE9FA"
+                            stroke-width="1.5" />
+
+                        <!-- bars -->
+                        <rect x="60" y="300" width="26" height="46" rx="6" fill="url(#barGrad)" opacity="0.55" />
+                        <rect x="100" y="280" width="26" height="66" rx="6" fill="url(#barGrad)" opacity="0.7" />
+                        <rect x="140" y="255" width="26" height="91" rx="6" fill="url(#barGrad)" opacity="0.85" />
+                        <rect x="180" y="230" width="26" height="116" rx="6" fill="url(#barGrad)" />
+
+                        <!-- forecast line -->
+                        <polyline points="60,300 100,280 140,255 180,230 230,205 280,215 330,190 380,205 430,175"
+                            fill="none" stroke="#6B3FD4" stroke-width="3.5" stroke-linecap="round"
+                            stroke-linejoin="round" class="draw-line" />
+                        <circle cx="430" cy="175" r="6" fill="#6B3FD4" class="pulse-dot" />
+                        <circle cx="230" cy="205" r="4.5" fill="#4361EE" />
+                        <circle cx="330" cy="190" r="4.5" fill="#4361EE" />
+
+                        <text x="52" y="216" font-family="Inter, sans-serif" font-size="12" fill="#6E6B80"
+                            font-weight="700">SALES FORECAST — NEXT QUARTER</text>
+                    </svg>
+
+                    <!-- floating AI chip -->
+                    <div class="absolute -top-6 -end-6 glass border border-primary/15 rounded-2xl px-4 py-3 shadow-xl flex items-center gap-2 float-anim"
+                        style="animation-delay: -3s;">
+                        <span
+                            class="w-8 h-8 rounded-full grad-bg flex items-center justify-center text-white text-sm"><i
+                                class="fa-solid fa-robot" aria-hidden="true"></i></span>
+                        <span class="text-xs font-bold text-ink" data-i18n="hero_chip">AI Assistant Online</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PROJECT OVERVIEW ============ -->
+    <section class="py-24 border-t border-ink/5">
+        <div class="max-w-5xl mx-auto px-5 sm:px-8 text-center">
+            <span class="text-sm font-bold text-primary tracking-widest uppercase" data-i18n="overview_eyebrow">Project
+                Overview</span>
+            <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold text-ink" data-i18n="overview_title">What is Odoonova?
+            </h2>
+            <p class="mt-6 text-lg text-ink/60 leading-relaxed" data-i18n="overview_text">
+                Odoonova is a graduation project built to demonstrate how Artificial Intelligence can enhance modern ERP
+                systems. It extends Odoo with an AI assistant, predictive forecasting, interactive dashboards, and
+                automated reporting — showing, in practice, how businesses can move from raw data to confident
+                decisions.
+            </p>
+
+            <div class="mt-14 grid sm:grid-cols-3 gap-6">
+                <div class="p-6 rounded-2xl bg-white border border-ink/5">
+                    <i class="fa-solid fa-brain text-primary text-2xl" aria-hidden="true"></i>
+                    <p class="mt-3 font-bold text-ink" data-i18n="overview_pt1_title">Intelligent Forecasting</p>
+                    <p class="mt-1 text-sm text-ink/55" data-i18n="overview_pt1_text">Predicts trends from historical
+                        business data.</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-white border border-ink/5">
+                    <i class="fa-solid fa-comments text-primary text-2xl" aria-hidden="true"></i>
+                    <p class="mt-3 font-bold text-ink" data-i18n="overview_pt2_title">Smart Business Insights</p>
+                    <p class="mt-1 text-sm text-ink/55" data-i18n="overview_pt2_text">Ask questions and get instant,
+                        data-backed answers.</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-white border border-ink/5">
+                    <i class="fa-solid fa-gears text-primary text-2xl" aria-hidden="true"></i>
+                    <p class="mt-3 font-bold text-ink" data-i18n="overview_pt3_title">Workflow Automation</p>
+                    <p class="mt-1 text-sm text-ink/55" data-i18n="overview_pt3_text">Reduces repetitive manual
+                        operational tasks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FEATURES ============ -->
+    <section id="features" class="py-24 bg-white border-t border-ink/5">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="text-sm font-bold text-primary tracking-widest uppercase" data-i18n="features_eyebrow">Core
+                    Features</span>
+                <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold text-ink" data-i18n="features_title">Everything
+                    Intelligent ERP Needs</h2>
+                <p class="mt-4 text-ink/60" data-i18n="features_subtitle">Six core capabilities that bring AI directly
+                    into everyday ERP operations.</p>
+            </div>
+
+            <div class="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="feature-card p-8 rounded-2xl border border-ink/8">
+                    <div class="w-14 h-14 rounded-xl grad-bg flex items-center justify-center text-white text-xl"><i
+                            class="fa-solid fa-plug" aria-hidden="true"></i></div>
+                    <h3 class="mt-6 text-lg font-bold text-ink" data-i18n="feat1_title">Odoo ERP Integration</h3>
+                    <p class="mt-2 text-sm text-ink/60 leading-relaxed" data-i18n="feat1_text">Built directly on Odoo's
+                        modular architecture, extending its core modules with intelligent capabilities.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="feature-card p-8 rounded-2xl border border-ink/8">
+                    <div class="w-14 h-14 rounded-xl grad-bg flex items-center justify-center text-white text-xl"><i
+                            class="fa-solid fa-robot" aria-hidden="true"></i></div>
+                    <h3 class="mt-6 text-lg font-bold text-ink" data-i18n="feat2_title">AI Business Assistant</h3>
+                    <p class="mt-2 text-sm text-ink/60 leading-relaxed" data-i18n="feat2_text">Answers business
+                        questions in natural language, drawing directly from live operational data.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="feature-card p-8 rounded-2xl border border-ink/8">
+                    <div class="w-14 h-14 rounded-xl grad-bg flex items-center justify-center text-white text-xl"><i
+                            class="fa-solid fa-chart-line" aria-hidden="true"></i></div>
+                    <h3 class="mt-6 text-lg font-bold text-ink" data-i18n="feat3_title">Sales Forecasting</h3>
+                    <p class="mt-2 text-sm text-ink/60 leading-relaxed" data-i18n="feat3_text">Uses predictive models to
+                        project future sales trends from historical patterns.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="feature-card p-8 rounded-2xl border border-ink/8">
+                    <div class="w-14 h-14 rounded-xl grad-bg flex items-center justify-center text-white text-xl"><i
+                            class="fa-solid fa-magnifying-glass-chart" aria-hidden="true"></i></div>
+                    <h3 class="mt-6 text-lg font-bold text-ink" data-i18n="feat4_title">Business Analytics</h3>
+                    <p class="mt-2 text-sm text-ink/60 leading-relaxed" data-i18n="feat4_text">Surfaces patterns and
+                        correlations across sales, inventory, and operations data.</p>
+                </div>
+                <!-- Card 5 -->
+                <div class="feature-card p-8 rounded-2xl border border-ink/8">
+                    <div class="w-14 h-14 rounded-xl grad-bg flex items-center justify-center text-white text-xl"><i
+                            class="fa-solid fa-table-cells-large" aria-hidden="true"></i></div>
+                    <h3 class="mt-6 text-lg font-bold text-ink" data-i18n="feat5_title">Interactive Dashboards</h3>
+                    <p class="mt-2 text-sm text-ink/60 leading-relaxed" data-i18n="feat5_text">Real-time visual
+                        dashboards that make complex data instantly understandable.</p>
+                </div>
+                <!-- Card 6 -->
+                <div class="feature-card p-8 rounded-2xl border border-ink/8">
+                    <div class="w-14 h-14 rounded-xl grad-bg flex items-center justify-center text-white text-xl"><i
+                            class="fa-solid fa-file-circle-check" aria-hidden="true"></i></div>
+                    <h3 class="mt-6 text-lg font-bold text-ink" data-i18n="feat6_title">Automated Reporting</h3>
+                    <p class="mt-2 text-sm text-ink/60 leading-relaxed" data-i18n="feat6_text">Generates structured
+                        business reports automatically, removing manual compilation work.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ TECHNOLOGIES ============ -->
+    <section id="services" class="py-24 border-t border-ink/5">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="text-sm font-bold text-primary tracking-widest uppercase"
+                    data-i18n="tech_eyebrow">Technology Stack</span>
+                <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold text-ink" data-i18n="tech_title">Technologies Used
+                </h2>
+                <p class="mt-4 text-ink/60" data-i18n="tech_subtitle">A modern, production-grade stack chosen for
+                    reliability and scalability.</p>
+            </div>
+
+            <div class="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-5">
+                <div
+                    class="feature-card flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-ink/8 text-center">
+                    <i class="fa-solid fa-cubes text-2xl text-primary" aria-hidden="true"></i>
+                    <span class="text-sm font-bold text-ink">Odoo</span>
+                </div>
+                <div
+                    class="feature-card flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-ink/8 text-center">
+                    <i class="fa-brands fa-python text-2xl text-primary" aria-hidden="true"></i>
+                    <span class="text-sm font-bold text-ink">Python</span>
+                </div>
+                <div
+                    class="feature-card flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-ink/8 text-center">
+                    <i class="fa-solid fa-database text-2xl text-primary" aria-hidden="true"></i>
+                    <span class="text-sm font-bold text-ink">PostgreSQL</span>
+                </div>
+                <div
+                    class="feature-card flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-ink/8 text-center">
+                    <i class="fa-brands fa-html5 text-2xl text-primary" aria-hidden="true"></i>
+                    <span class="text-sm font-bold text-ink">HTML5</span>
+                </div>
+                <div
+                    class="feature-card flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-ink/8 text-center">
+                    <i class="fa-solid fa-wind text-2xl text-primary" aria-hidden="true"></i>
+                    <span class="text-sm font-bold text-ink">Tailwind CSS</span>
+                </div>
+                <div
+                    class="feature-card flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-ink/8 text-center">
+                    <i class="fa-brands fa-js text-2xl text-primary" aria-hidden="true"></i>
+                    <span class="text-sm font-bold text-ink">JavaScript</span>
+                </div>
+                <div
+                    class="feature-card flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-ink/8 text-center">
+                    <i class="fa-solid fa-chart-simple text-2xl text-primary" aria-hidden="true"></i>
+                    <span class="text-sm font-bold text-ink">Prophet Forecasting</span>
+                </div>
+                <div
+                    class="feature-card flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-ink/8 text-center">
+                    <i class="fa-solid fa-microchip text-2xl text-primary" aria-hidden="true"></i>
+                    <span class="text-sm font-bold text-ink" data-i18n="tech_ai_api">AI APIs</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ WHY ODOONOVA ============ -->
+    <section class="py-24 bg-white border-t border-ink/5">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="text-sm font-bold text-primary tracking-widest uppercase"
+                    data-i18n="why_eyebrow">Advantages</span>
+                <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold text-ink" data-i18n="why_title">Why Odoonova?</h2>
+            </div>
+
+            <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="feature-card p-8 rounded-2xl" style="background: var(--grad-soft);">
+                    <i class="fa-solid fa-bolt text-primary text-xl" aria-hidden="true"></i>
+                    <h3 class="mt-4 font-bold text-ink" data-i18n="why1_title">AI-Powered ERP</h3>
+                    <p class="mt-2 text-sm text-ink/60" data-i18n="why1_text">Intelligence embedded directly into
+                        everyday ERP workflows.</p>
+                </div>
+                <div class="feature-card p-8 rounded-2xl" style="background: var(--grad-soft);">
+                    <i class="fa-solid fa-wand-magic-sparkles text-primary text-xl" aria-hidden="true"></i>
+                    <h3 class="mt-4 font-bold text-ink" data-i18n="why2_title">Intelligent Forecasting</h3>
+                    <p class="mt-2 text-sm text-ink/60" data-i18n="why2_text">Anticipates trends instead of only
+                        reporting the past.</p>
+                </div>
+                <div class="feature-card p-8 rounded-2xl" style="background: var(--grad-soft);">
+                    <i class="fa-solid fa-gauge-high text-primary text-xl" aria-hidden="true"></i>
+                    <h3 class="mt-4 font-bold text-ink" data-i18n="why3_title">Smart Dashboards</h3>
+                    <p class="mt-2 text-sm text-ink/60" data-i18n="why3_text">Clear, real-time visuals that make data
+                        easy to act on.</p>
+                </div>
+                <div class="feature-card p-8 rounded-2xl" style="background: var(--grad-soft);">
+                    <i class="fa-solid fa-arrows-rotate text-primary text-xl" aria-hidden="true"></i>
+                    <h3 class="mt-4 font-bold text-ink" data-i18n="why4_title">Automation</h3>
+                    <p class="mt-2 text-sm text-ink/60" data-i18n="why4_text">Removes repetitive manual work from daily
+                        operations.</p>
+                </div>
+                <div class="feature-card p-8 rounded-2xl" style="background: var(--grad-soft);">
+                    <i class="fa-solid fa-hand-pointer text-primary text-xl" aria-hidden="true"></i>
+                    <h3 class="mt-4 font-bold text-ink" data-i18n="why5_title">User-Friendly Interface</h3>
+                    <p class="mt-2 text-sm text-ink/60" data-i18n="why5_text">Designed to be approachable for
+                        non-technical users.</p>
+                </div>
+                <div class="feature-card p-8 rounded-2xl" style="background: var(--grad-soft);">
+                    <i class="fa-solid fa-layer-group text-primary text-xl" aria-hidden="true"></i>
+                    <h3 class="mt-4 font-bold text-ink" data-i18n="why6_title">Scalable Architecture</h3>
+                    <p class="mt-2 text-sm text-ink/60" data-i18n="why6_text">Built to grow in scope as new modules and
+                        needs emerge.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ OBJECTIVES ============ -->
+    <section class="py-24 border-t border-ink/5">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+                <span class="text-sm font-bold text-primary tracking-widest uppercase"
+                    data-i18n="obj_eyebrow">Goals</span>
+                <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold text-ink" data-i18n="obj_title">Project Objectives
+                </h2>
+                <p class="mt-4 text-ink/60 leading-relaxed" data-i18n="obj_subtitle">Odoonova was designed around a
+                    clear set of academic and practical goals.</p>
+            </div>
+
+            <ul class="space-y-4">
+                <li class="flex items-start gap-4 p-5 rounded-2xl bg-white border border-ink/8">
+                    <span class="w-9 h-9 rounded-lg grad-bg text-white flex items-center justify-center shrink-0"><i
+                            class="fa-solid fa-check text-sm" aria-hidden="true"></i></span>
+                    <span class="font-semibold text-ink pt-1" data-i18n="obj1">Improve business decision-making</span>
+                </li>
+                <li class="flex items-start gap-4 p-5 rounded-2xl bg-white border border-ink/8">
+                    <span class="w-9 h-9 rounded-lg grad-bg text-white flex items-center justify-center shrink-0"><i
+                            class="fa-solid fa-check text-sm" aria-hidden="true"></i></span>
+                    <span class="font-semibold text-ink pt-1" data-i18n="obj2">Reduce manual work</span>
+                </li>
+                <li class="flex items-start gap-4 p-5 rounded-2xl bg-white border border-ink/8">
+                    <span class="w-9 h-9 rounded-lg grad-bg text-white flex items-center justify-center shrink-0"><i
+                            class="fa-solid fa-check text-sm" aria-hidden="true"></i></span>
+                    <span class="font-semibold text-ink pt-1" data-i18n="obj3">Automate repetitive tasks</span>
+                </li>
+                <li class="flex items-start gap-4 p-5 rounded-2xl bg-white border border-ink/8">
+                    <span class="w-9 h-9 rounded-lg grad-bg text-white flex items-center justify-center shrink-0"><i
+                            class="fa-solid fa-check text-sm" aria-hidden="true"></i></span>
+                    <span class="font-semibold text-ink pt-1" data-i18n="obj4">Integrate AI with ERP</span>
+                </li>
+                <li class="flex items-start gap-4 p-5 rounded-2xl bg-white border border-ink/8">
+                    <span class="w-9 h-9 rounded-lg grad-bg text-white flex items-center justify-center shrink-0"><i
+                            class="fa-solid fa-check text-sm" aria-hidden="true"></i></span>
+                    <span class="font-semibold text-ink pt-1" data-i18n="obj5">Demonstrate practical AI
+                        applications</span>
+                </li>
+                <li class="flex items-start gap-4 p-5 rounded-2xl bg-white border border-ink/8">
+                    <span class="w-9 h-9 rounded-lg grad-bg text-white flex items-center justify-center shrink-0"><i
+                            class="fa-solid fa-check text-sm" aria-hidden="true"></i></span>
+                    <span class="font-semibold text-ink pt-1" data-i18n="obj6">Build a scalable ERP extension</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============ DEVELOPMENT PROCESS (TIMELINE) ============ -->
+    <section class="py-24 bg-white border-t border-ink/5">
+        <div class="max-w-5xl mx-auto px-5 sm:px-8">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="text-sm font-bold text-primary tracking-widest uppercase"
+                    data-i18n="timeline_eyebrow">Methodology</span>
+                <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold text-ink" data-i18n="timeline_title">Development
+                    Process</h2>
+            </div>
+
+            <div class="mt-16 relative">
+                <div class="hidden sm:block absolute top-6 start-6 end-6 h-0.5" style="background: var(--grad);"
+                    aria-hidden="true"></div>
+                <div class="grid sm:grid-cols-6 gap-8 sm:gap-4">
+
+                    <div class="text-center relative animate-fadeInUp">
+                        <div
+                            class="w-12 h-12 mx-auto rounded-full grad-bg text-white flex items-center justify-center font-extrabold relative z-10">
+                            1</div>
+                        <p class="mt-4 font-bold text-ink text-sm" data-i18n="tl1_title">Research</p>
+                    </div>
+                    <div class="text-center relative animate-fadeInUp delay-1">
+                        <div
+                            class="w-12 h-12 mx-auto rounded-full grad-bg text-white flex items-center justify-center font-extrabold relative z-10">
+                            2</div>
+                        <p class="mt-4 font-bold text-ink text-sm" data-i18n="tl2_title">Analysis</p>
+                    </div>
+                    <div class="text-center relative animate-fadeInUp delay-2">
+                        <div
+                            class="w-12 h-12 mx-auto rounded-full grad-bg text-white flex items-center justify-center font-extrabold relative z-10">
+                            3</div>
+                        <p class="mt-4 font-bold text-ink text-sm" data-i18n="tl3_title">Design</p>
+                    </div>
+                    <div class="text-center relative animate-fadeInUp delay-3">
+                        <div
+                            class="w-12 h-12 mx-auto rounded-full grad-bg text-white flex items-center justify-center font-extrabold relative z-10">
+                            4</div>
+                        <p class="mt-4 font-bold text-ink text-sm" data-i18n="tl4_title">Development</p>
+                    </div>
+                    <div class="text-center relative animate-fadeInUp delay-4">
+                        <div
+                            class="w-12 h-12 mx-auto rounded-full grad-bg text-white flex items-center justify-center font-extrabold relative z-10">
+                            5</div>
+                        <p class="mt-4 font-bold text-ink text-sm" data-i18n="tl5_title">Testing</p>
+                    </div>
+                    <div class="text-center relative animate-fadeInUp delay-4">
+                        <div
+                            class="w-12 h-12 mx-auto rounded-full grad-bg text-white flex items-center justify-center font-extrabold relative z-10">
+                            6</div>
+                        <p class="mt-4 font-bold text-ink text-sm" data-i18n="tl6_title">Final Deployment</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ ABOUT THE PROJECT ============ -->
+    <section id="about" class="py-24 border-t border-ink/5">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="text-sm font-bold text-primary tracking-widest uppercase" data-i18n="about_eyebrow">About
+                    The Project</span>
+                <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold text-ink" data-i18n="about_title">Academic Purpose
+                    &amp; Vision</h2>
+            </div>
+
+            <div class="mt-14 grid sm:grid-cols-2 gap-6">
+                <div class="p-8 rounded-2xl bg-white border border-ink/8">
+                    <i class="fa-solid fa-bullseye text-primary text-xl" aria-hidden="true"></i>
+                    <h3 class="mt-4 font-bold text-ink" data-i18n="about1_title">Purpose</h3>
+                    <p class="mt-2 text-sm text-ink/60 leading-relaxed" data-i18n="about1_text">To demonstrate, through
+                        a working system, how AI can be integrated into an open-source ERP to genuinely improve daily
+                        business operations.</p>
+                </div>
+                <div class="p-8 rounded-2xl bg-white border border-ink/8">
+                    <i class="fa-solid fa-eye text-primary text-xl" aria-hidden="true"></i>
+                    <h3 class="mt-4 font-bold text-ink" data-i18n="about2_title">Vision</h3>
+                    <p class="mt-2 text-sm text-ink/60 leading-relaxed" data-i18n="about2_text">A future where small and
+                        medium businesses have access to intelligent, forecast-driven ERP tools without needing a
+                        dedicated data science team.</p>
+                </div>
+                <div class="p-8 rounded-2xl bg-white border border-ink/8">
+                    <i class="fa-solid fa-graduation-cap text-primary text-xl" aria-hidden="true"></i>
+                    <h3 class="mt-4 font-bold text-ink" data-i18n="about3_title">Academic Value</h3>
+                    <p class="mt-2 text-sm text-ink/60 leading-relaxed" data-i18n="about3_text">Applies concepts from
+                        ERP systems, machine learning, and full-stack development within a single, coherent graduation
+                        project.</p>
+                </div>
+                <div class="p-8 rounded-2xl bg-white border border-ink/8">
+                    <i class="fa-solid fa-seedling text-primary text-xl" aria-hidden="true"></i>
+                    <h3 class="mt-4 font-bold text-ink" data-i18n="about4_title">Future Improvements</h3>
+                    <p class="mt-2 text-sm text-ink/60 leading-relaxed" data-i18n="about4_text">Planned directions
+                        include deeper forecasting models, expanded automation modules, and broader Odoo module
+                        coverage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="py-24 bg-white border-t border-ink/5">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="text-sm font-bold text-primary tracking-widest uppercase" data-i18n="contact_eyebrow">Get
+                    in Touch</span>
+                <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold text-ink" data-i18n="contact_title">Contact Us</h2>
+            </div>
+
+            <div class="mt-14 grid lg:grid-cols-2 gap-10">
+
+                <!-- Form -->
+                <form id="contactForm" class="p-8 sm:p-10 rounded-3xl border border-ink/8" novalidate>
+                    <div class="space-y-6">
+                        <div>
+                            <label for="fullName" class="block text-sm font-bold text-ink mb-2"
+                                data-i18n="form_name_label">Full Name</label>
+                            <input id="fullName" name="fullName" type="text" autocomplete="name" required
+                                class="w-full px-5 py-3.5 rounded-xl border border-ink/12 focus:border-primary outline-none transition-colors"
+                                data-i18n-placeholder="form_name_ph" placeholder="Your full name">
+                            <p class="hidden text-xs text-red-500 mt-1.5 field-error" data-i18n="form_name_error">Please
+                                enter your full name.</p>
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-bold text-ink mb-2"
+                                data-i18n="form_email_label">Email Address</label>
+                            <input id="email" name="email" type="email" autocomplete="email" required
+                                class="w-full px-5 py-3.5 rounded-xl border border-ink/12 focus:border-primary outline-none transition-colors"
+                                data-i18n-placeholder="form_email_ph" placeholder="you@example.com">
+                            <p class="hidden text-xs text-red-500 mt-1.5 field-error" data-i18n="form_email_error">
+                                Please enter a valid email address.</p>
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-sm font-bold text-ink mb-2"
+                                data-i18n="form_message_label">Message</label>
+                            <textarea id="message" name="message" rows="5" required
+                                class="w-full px-5 py-3.5 rounded-xl border border-ink/12 focus:border-primary outline-none transition-colors resize-none"
+                                data-i18n-placeholder="form_message_ph" placeholder="Write your message..."></textarea>
+                            <p class="hidden text-xs text-red-500 mt-1.5 field-error" data-i18n="form_message_error">
+                                Please write a message.</p>
+                        </div>
+
+                        <button type="submit"
+                            class="btn-primary w-full grad-bg text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/25"
+                            data-i18n="form_submit">
+                            Send Message
+                        </button>
+
+                        <p id="formSuccess" class="hidden text-sm font-semibold text-emerald-600 text-center"
+                            data-i18n="form_success">
+                            Thank you! Your message has been prepared successfully.
+                        </p>
+                    </div>
+                </form>
+
+                <!-- Team emails -->
+                <div>
+                    <h3 class="text-2xl font-extrabold text-ink" data-i18n="team_title">Project Team</h3>
+                    <p class="mt-2 text-ink/60" data-i18n="team_subtitle">Contact the appropriate project member
+                        directly.</p>
+
+                    <div class="mt-8 grid sm:grid-cols-2 gap-4">
+                        <a href="mailto:Abdalrhmangamaleldien@gmail.com"
+                            class="feature-card flex items-center gap-4 p-5 rounded-2xl border border-ink/8">
+                            <span
+                                class="w-11 h-11 rounded-xl grad-bg text-white flex items-center justify-center shrink-0"><i
+                                    class="fa-solid fa-envelope" aria-hidden="true"></i></span>
+                            <span class="min-w-0">
+                                <span class="block text-sm font-bold text-ink" data-i18n="team_leader">Project
+                                    Leader</span>
+                                <span class="block text-xs text-ink/55 truncate">Abdalrhmangamaleldien@gmail.com</span>
+                            </span>
+                        </a>
+                        <a href="mailto:kyrillos.eid22@gmail.com"
+                            class="feature-card flex items-center gap-4 p-5 rounded-2xl border border-ink/8">
+                            <span
+                                class="w-11 h-11 rounded-xl grad-bg text-white flex items-center justify-center shrink-0"><i
+                                    class="fa-solid fa-envelope" aria-hidden="true"></i></span>
+                            <span class="min-w-0">
+                                <span class="block text-sm font-bold text-ink"><span
+                                        data-i18n="team_member">Member</span> 1</span>
+                                <span class="block text-xs text-ink/55 truncate">kyrillos.eid22@gmail.com</span>
+                            </span>
+                        </a>
+                        <a href="mailto:Mennaramadanabdallah@gmail.com"
+                            class="feature-card flex items-center gap-4 p-5 rounded-2xl border border-ink/8">
+                            <span
+                                class="w-11 h-11 rounded-xl grad-bg text-white flex items-center justify-center shrink-0"><i
+                                    class="fa-solid fa-envelope" aria-hidden="true"></i></span>
+                            <span class="min-w-0">
+                                <span class="block text-sm font-bold text-ink"><span
+                                        data-i18n="team_member">Member</span> 2</span>
+                                <span class="block text-xs text-ink/55 truncate">Mennaramadanabdallah@gmail.com</span>
+                            </span>
+                        </a>
+                        <a href="mailto:mernaelia1234@gmail.com"
+                            class="feature-card flex items-center gap-4 p-5 rounded-2xl border border-ink/8">
+                            <span
+                                class="w-11 h-11 rounded-xl grad-bg text-white flex items-center justify-center shrink-0"><i
+                                    class="fa-solid fa-envelope" aria-hidden="true"></i></span>
+                            <span class="min-w-0">
+                                <span class="block text-sm font-bold text-ink"><span
+                                        data-i18n="team_member">Member</span> 3</span>
+                                <span class="block text-xs text-ink/55 truncate">mernaelia1234@gmail.com</span>
+                            </span>
+                        </a>
+                        <a href="mailto:salmawaheed92004@gmail.com"
+                            class="feature-card flex items-center gap-4 p-5 rounded-2xl border border-ink/8">
+                            <span
+                                class="w-11 h-11 rounded-xl grad-bg text-white flex items-center justify-center shrink-0"><i
+                                    class="fa-solid fa-envelope" aria-hidden="true"></i></span>
+                            <span class="min-w-0">
+                                <span class="block text-sm font-bold text-ink"><span
+                                        data-i18n="team_member">Member</span> 4</span>
+                                <span class="block text-xs text-ink/55 truncate">salmawaheed92004@gmail.com</span>
+                            </span>
+                        </a>
+                        <a href="mailto:shahdmstfy29@gmail.com"
+                            class="feature-card flex items-center gap-4 p-5 rounded-2xl border border-ink/8">
+                            <span
+                                class="w-11 h-11 rounded-xl grad-bg text-white flex items-center justify-center shrink-0"><i
+                                    class="fa-solid fa-envelope" aria-hidden="true"></i></span>
+                            <span class="min-w-0">
+                                <span class="block text-sm font-bold text-ink"><span
+                                        data-i18n="team_member">Member</span> 5</span>
+                                <span class="block text-xs text-ink/55 truncate">shahdmstfy29@gmail.com</span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FINAL CTA ============ -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 -z-10 grad-bg" aria-hidden="true"></div>
+        <div class="absolute inset-0 -z-10 opacity-20" aria-hidden="true"
+            style="background-image: radial-gradient(circle at 20% 20%, white 0, transparent 35%), radial-gradient(circle at 80% 80%, white 0, transparent 35%);">
+        </div>
+
+        <div class="max-w-4xl mx-auto px-5 sm:px-8 text-center">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight" data-i18n="cta_title">
+                Discover the Future of Intelligent ERP Systems
+            </h2>
+            <a href="#features"
+                class="btn-primary inline-block mt-9 bg-white text-primary font-bold px-9 py-4 rounded-full shadow-2xl"
+                data-i18n="cta_btn">
+                Explore Odoonova
+            </a>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="bg-ink text-white/70 py-16">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div class="grid sm:grid-cols-3 gap-10">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true">
+                            <circle cx="20" cy="20" r="18" stroke="#8B63E8" stroke-width="2.5" fill="none" />
+                            <path d="M11 27 L11 20 L16 20 L16 15 L21 15 L21 11 L26 11" stroke="#8B63E8"
+                                stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                            <circle cx="26" cy="11" r="2.5" fill="#8B63E8" />
+                        </svg>
+                        <span class="text-lg font-extrabold text-white">Odoonova</span>
+                    </div>
+                    <p class="mt-4 text-sm leading-relaxed" data-i18n="footer_desc">
+                        A university graduation project exploring how Artificial Intelligence can enhance Odoo ERP
+                        through forecasting, analytics, and automation.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm tracking-wide uppercase" data-i18n="footer_nav_title">
+                        Navigation</h4>
+                    <ul class="mt-4 space-y-3 text-sm">
+                        <li><a href="#home" class="hover:text-white transition-colors" data-i18n="nav_home">Home</a>
+                        </li>
+                        <li><a href="#features" class="hover:text-white transition-colors"
+                                data-i18n="nav_features">Features</a></li>
+                        <li><a href="#about" class="hover:text-white transition-colors" data-i18n="nav_about">About
+                                Project</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors"
+                                data-i18n="nav_contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm tracking-wide uppercase" data-i18n="footer_lang_title">
+                        Language</h4>
+                    <button id="langToggleFooter" type="button"
+                        class="mt-4 flex items-center gap-2 px-4 py-2.5 rounded-full border border-white/20 text-sm font-semibold text-white/80 hover:border-white hover:text-white transition-colors">
+                        <i class="fa-solid fa-globe" aria-hidden="true"></i>
+                        <span id="langLabelFooter">العربية</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-14 pt-8 border-t border-white/10 text-center text-xs text-white/50"
+                data-i18n="footer_copyright">
+                © 2026 Odoonova Graduation Project. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* =========================================================
+           TRANSLATIONS
+           ========================================================= */
+        const translations = {
+            en: {
+                nav_home: "Home", nav_features: "Features", nav_services: "Services",
+                nav_about: "About Project", nav_contact: "Contact", nav_cta: "Explore Project",
+
+                hero_badge: "UNIVERSITY GRADUATION PROJECT",
+                hero_title_1: "Transform Business Management",
+                hero_title_2: "with Intelligent ERP",
+                hero_subtitle: "Odoonova combines Odoo ERP, Artificial Intelligence, Business Intelligence, and Forecasting into one intelligent platform — automating operations and turning raw data into clear decisions.",
+                hero_btn_primary: "Explore Project",
+                hero_btn_secondary: "Learn More",
+                hero_tag_1: "AI Assistant", hero_tag_2: "Forecasting", hero_tag_3: "Automation",
+                hero_chip: "AI Assistant Online",
+
+                overview_eyebrow: "Project Overview",
+                overview_title: "What is Odoonova?",
+                overview_text: "Odoonova is a graduation project built to demonstrate how Artificial Intelligence can enhance modern ERP systems. It extends Odoo with an AI assistant, predictive forecasting, interactive dashboards, and automated reporting — showing, in practice, how businesses can move from raw data to confident decisions.",
+                overview_pt1_title: "Intelligent Forecasting", overview_pt1_text: "Predicts trends from historical business data.",
+                overview_pt2_title: "Smart Business Insights", overview_pt2_text: "Ask questions and get instant, data-backed answers.",
+                overview_pt3_title: "Workflow Automation", overview_pt3_text: "Reduces repetitive manual operational tasks.",
+
+                features_eyebrow: "Core Features",
+                features_title: "Everything Intelligent ERP Needs",
+                features_subtitle: "Six core capabilities that bring AI directly into everyday ERP operations.",
+                feat1_title: "Odoo ERP Integration", feat1_text: "Built directly on Odoo's modular architecture, extending its core modules with intelligent capabilities.",
+                feat2_title: "AI Business Assistant", feat2_text: "Answers business questions in natural language, drawing directly from live operational data.",
+                feat3_title: "Sales Forecasting", feat3_text: "Uses predictive models to project future sales trends from historical patterns.",
+                feat4_title: "Business Analytics", feat4_text: "Surfaces patterns and correlations across sales, inventory, and operations data.",
+                feat5_title: "Interactive Dashboards", feat5_text: "Real-time visual dashboards that make complex data instantly understandable.",
+                feat6_title: "Automated Reporting", feat6_text: "Generates structured business reports automatically, removing manual compilation work.",
+
+                tech_eyebrow: "Technology Stack", tech_title: "Technologies Used",
+                tech_subtitle: "A modern, production-grade stack chosen for reliability and scalability.",
+                tech_ai_api: "AI APIs",
+
+                why_eyebrow: "Advantages", why_title: "Why Odoonova?",
+                why1_title: "AI-Powered ERP", why1_text: "Intelligence embedded directly into everyday ERP workflows.",
+                why2_title: "Intelligent Forecasting", why2_text: "Anticipates trends instead of only reporting the past.",
+                why3_title: "Smart Dashboards", why3_text: "Clear, real-time visuals that make data easy to act on.",
+                why4_title: "Automation", why4_text: "Removes repetitive manual work from daily operations.",
+                why5_title: "User-Friendly Interface", why5_text: "Designed to be approachable for non-technical users.",
+                why6_title: "Scalable Architecture", why6_text: "Built to grow in scope as new modules and needs emerge.",
+
+                obj_eyebrow: "Goals", obj_title: "Project Objectives",
+                obj_subtitle: "Odoonova was designed around a clear set of academic and practical goals.",
+                obj1: "Improve business decision-making", obj2: "Reduce manual work", obj3: "Automate repetitive tasks",
+                obj4: "Integrate AI with ERP", obj5: "Demonstrate practical AI applications", obj6: "Build a scalable ERP extension",
+
+                timeline_eyebrow: "Methodology", timeline_title: "Development Process",
+                tl1_title: "Research", tl2_title: "Analysis", tl3_title: "Design",
+                tl4_title: "Development", tl5_title: "Testing", tl6_title: "Final Deployment",
+
+                about_eyebrow: "About The Project", about_title: "Academic Purpose & Vision",
+                about1_title: "Purpose", about1_text: "To demonstrate, through a working system, how AI can be integrated into an open-source ERP to genuinely improve daily business operations.",
+                about2_title: "Vision", about2_text: "A future where small and medium businesses have access to intelligent, forecast-driven ERP tools without needing a dedicated data science team.",
+                about3_title: "Academic Value", about3_text: "Applies concepts from ERP systems, machine learning, and full-stack development within a single, coherent graduation project.",
+                about4_title: "Future Improvements", about4_text: "Planned directions include deeper forecasting models, expanded automation modules, and broader Odoo module coverage.",
+
+                contact_eyebrow: "Get in Touch", contact_title: "Contact Us",
+                form_name_label: "Full Name", form_name_ph: "Your full name", form_name_error: "Please enter your full name.",
+                form_email_label: "Email Address", form_email_ph: "you@example.com", form_email_error: "Please enter a valid email address.",
+                form_message_label: "Message", form_message_ph: "Write your message...", form_message_error: "Please write a message.",
+                form_submit: "Send Message",
+                form_success: "Thank you! Your message has been prepared successfully.",
+
+                team_title: "Project Team", team_subtitle: "Contact the appropriate project member directly.",
+                team_leader: "Project Leader", team_member: "Member",
+
+                cta_title: "Discover the Future of Intelligent ERP Systems", cta_btn: "Explore Odoonova",
+
+                footer_desc: "A university graduation project exploring how Artificial Intelligence can enhance Odoo ERP through forecasting, analytics, and automation.",
+                footer_nav_title: "Navigation", footer_lang_title: "Language",
+                footer_copyright: "© 2026 Odoonova Graduation Project. All rights reserved.",
+            },
+
+            ar: {
+                nav_home: "الرئيسية", nav_features: "المزايا", nav_services: "الخدمات",
+                nav_about: "عن المشروع", nav_contact: "تواصل معنا", nav_cta: "استكشف المشروع",
+
+                hero_badge: "مشروع تخرج جامعي",
+                hero_title_1: "طوّر إدارة الأعمال",
+                hero_title_2: "باستخدام نظام ERP الذكي",
+                hero_subtitle: "يجمع أودونوفا بين نظام أودو للتخطيط، والذكاء الاصطناعي، وذكاء الأعمال، والتنبؤ في منصة ذكية واحدة — تُؤتمت العمليات وتحوّل البيانات الخام إلى قرارات واضحة.",
+                hero_btn_primary: "استكشف المشروع",
+                hero_btn_secondary: "اعرف المزيد",
+                hero_tag_1: "مساعد ذكاء اصطناعي", hero_tag_2: "التنبؤ", hero_tag_3: "الأتمتة",
+                hero_chip: "المساعد الذكي يعمل الآن",
+
+                overview_eyebrow: "نظرة عامة على المشروع",
+                overview_title: "ما هو أودونوفا؟",
+                overview_text: "أودونوفا مشروع تخرج يهدف إلى إثبات كيف يمكن للذكاء الاصطناعي أن يعزز أنظمة ERP الحديثة. يوسّع المشروع نظام أودو بمساعد ذكاء اصطناعي، وتنبؤات استباقية، ولوحات تحكم تفاعلية، وتقارير آلية — ليُظهر عمليًا كيف يمكن للشركات الانتقال من البيانات الخام إلى قرارات واثقة.",
+                overview_pt1_title: "تنبؤ ذكي", overview_pt1_text: "يتنبأ بالاتجاهات المستقبلية من بيانات الأعمال السابقة.",
+                overview_pt2_title: "رؤى أعمال ذكية", overview_pt2_text: "اطرح أسئلتك واحصل على إجابات فورية مبنية على البيانات.",
+                overview_pt3_title: "أتمتة سير العمل", overview_pt3_text: "تقلّل من المهام التشغيلية اليدوية المتكررة.",
+
+                features_eyebrow: "المزايا الأساسية",
+                features_title: "كل ما يحتاجه ERP ذكي",
+                features_subtitle: "ست قدرات أساسية تُدخل الذكاء الاصطناعي مباشرة إلى عمليات ERP اليومية.",
+                feat1_title: "تكامل مع نظام أودو", feat1_text: "مبني مباشرة على البنية المعيارية لأودو، ويوسّع وحداته الأساسية بقدرات ذكية.",
+                feat2_title: "مساعد أعمال ذكي", feat2_text: "يجيب عن أسئلة الأعمال بلغة طبيعية، معتمدًا على بيانات تشغيلية حية.",
+                feat3_title: "التنبؤ بالمبيعات", feat3_text: "يستخدم نماذج تنبؤية لعرض اتجاهات المبيعات المستقبلية من الأنماط التاريخية.",
+                feat4_title: "تحليلات الأعمال", feat4_text: "يكشف الأنماط والعلاقات عبر بيانات المبيعات والمخزون والعمليات.",
+                feat5_title: "لوحات تحكم تفاعلية", feat5_text: "لوحات مرئية فورية تجعل البيانات المعقدة مفهومة على الفور.",
+                feat6_title: "تقارير آلية", feat6_text: "يُنشئ تقارير أعمال منظمة تلقائيًا، ما يزيل عبء التجميع اليدوي.",
+
+                tech_eyebrow: "التقنيات المستخدمة", tech_title: "التقنيات المستخدمة",
+                tech_subtitle: "حزمة تقنيات حديثة تم اختيارها من أجل الموثوقية وقابلية التوسع.",
+                tech_ai_api: "واجهات ذكاء اصطناعي",
+
+                why_eyebrow: "المزايا", why_title: "لماذا أودونوفا؟",
+                why1_title: "ERP مدعوم بالذكاء الاصطناعي", why1_text: "ذكاء مدمج مباشرة في سير عمل ERP اليومي.",
+                why2_title: "تنبؤ ذكي", why2_text: "يستشرف الاتجاهات بدلًا من الاكتفاء بعرض الماضي.",
+                why3_title: "لوحات تحكم ذكية", why3_text: "عروض مرئية واضحة وفورية تسهّل اتخاذ القرار.",
+                why4_title: "الأتمتة", why4_text: "يزيل العمل اليدوي المتكرر من العمليات اليومية.",
+                why5_title: "واجهة سهلة الاستخدام", why5_text: "مصممة لتكون سهلة الاستخدام حتى لغير المتخصصين تقنيًا.",
+                why6_title: "بنية قابلة للتوسع", why6_text: "مبنية لتنمو مع ظهور وحدات واحتياجات جديدة.",
+
+                obj_eyebrow: "الأهداف", obj_title: "أهداف المشروع",
+                obj_subtitle: "صُمم أودونوفا حول مجموعة واضحة من الأهداف الأكاديمية والعملية.",
+                obj1: "تحسين اتخاذ القرارات في الأعمال", obj2: "تقليل العمل اليدوي", obj3: "أتمتة المهام المتكررة",
+                obj4: "دمج الذكاء الاصطناعي مع ERP", obj5: "إظهار تطبيقات عملية للذكاء الاصطناعي", obj6: "بناء امتداد ERP قابل للتوسع",
+
+                timeline_eyebrow: "المنهجية", timeline_title: "مراحل التطوير",
+                tl1_title: "البحث", tl2_title: "التحليل", tl3_title: "التصميم",
+                tl4_title: "التطوير", tl5_title: "الاختبار", tl6_title: "النشر النهائي",
+
+                about_eyebrow: "عن المشروع", about_title: "الغاية الأكاديمية والرؤية",
+                about1_title: "الغاية", about1_text: "إثبات، من خلال نظام عملي، كيف يمكن دمج الذكاء الاصطناعي في نظام ERP مفتوح المصدر لتحسين العمليات اليومية للأعمال فعليًا.",
+                about2_title: "الرؤية", about2_text: "مستقبل تمتلك فيه الشركات الصغيرة والمتوسطة أدوات ERP ذكية قائمة على التنبؤ دون الحاجة إلى فريق متخصص في علوم البيانات.",
+                about3_title: "القيمة الأكاديمية", about3_text: "يطبّق مفاهيم من أنظمة ERP وتعلم الآلة والتطوير الشامل ضمن مشروع تخرج واحد ومتكامل.",
+                about4_title: "تحسينات مستقبلية", about4_text: "تشمل الخطط المستقبلية نماذج تنبؤ أعمق، ووحدات أتمتة موسّعة، وتغطية أوسع لوحدات أودو.",
+
+                contact_eyebrow: "تواصل معنا", contact_title: "اتصل بنا",
+                form_name_label: "الاسم الكامل", form_name_ph: "اسمك الكامل", form_name_error: "يرجى إدخال اسمك الكامل.",
+                form_email_label: "البريد الإلكتروني", form_email_ph: "you@example.com", form_email_error: "يرجى إدخال بريد إلكتروني صحيح.",
+                form_message_label: "الرسالة", form_message_ph: "اكتب رسالتك...", form_message_error: "يرجى كتابة رسالة.",
+                form_submit: "إرسال الرسالة",
+                form_success: "شكرًا لك! تم تجهيز رسالتك بنجاح.",
+
+                team_title: "فريق المشروع", team_subtitle: "اختر عضو الفريق المناسب للتواصل معه مباشرة.",
+                team_leader: "قائد المشروع", team_member: "عضو",
+
+                cta_title: "اكتشف مستقبل أنظمة ERP الذكية", cta_btn: "استكشف أودونوفا",
+
+                footer_desc: "مشروع تخرج جامعي يستكشف كيف يمكن للذكاء الاصطناعي تعزيز نظام أودو من خلال التنبؤ والتحليلات والأتمتة.",
+                footer_nav_title: "التنقل", footer_lang_title: "اللغة",
+                footer_copyright: "© 2026 مشروع تخرج أودونوفا. جميع الحقوق محفوظة.",
+            }
+        };
+
+        /* =========================================================
+           LANGUAGE SWITCHING
+           ========================================================= */
+        let currentLang = 'en';
+
+        function applyTranslations(lang) {
+            const dict = translations[lang];
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key] !== undefined) { el.textContent = dict[key]; }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (dict[key] !== undefined) { el.setAttribute('placeholder', dict[key]); }
+            });
+
+            const html = document.documentElement;
+            if (lang === 'ar') {
+                html.setAttribute('lang', 'ar');
+                html.setAttribute('dir', 'rtl');
+                document.getElementById('langLabel').textContent = 'English';
+                document.getElementById('langLabelMobile').textContent = 'English';
+                document.getElementById('langLabelFooter').textContent = 'English';
+            } else {
+                html.setAttribute('lang', 'en');
+                html.setAttribute('dir', 'ltr');
+                document.getElementById('langLabel').textContent = 'العربية';
+                document.getElementById('langLabelMobile').textContent = 'العربية';
+                document.getElementById('langLabelFooter').textContent = 'العربية';
+            }
+            currentLang = lang;
+        }
+
+        function toggleLang() {
+            applyTranslations(currentLang === 'en' ? 'ar' : 'en');
+        }
+
+        document.getElementById('langToggle').addEventListener('click', toggleLang);
+        document.getElementById('langToggleMobile').addEventListener('click', toggleLang);
+        document.getElementById('langToggleFooter').addEventListener('click', toggleLang);
+
+        /* =========================================================
+           MOBILE MENU
+           ========================================================= */
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileBtn.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.toggle('hidden');
+            mobileBtn.setAttribute('aria-expanded', String(!isHidden));
+        });
+        mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            mobileBtn.setAttribute('aria-expanded', 'false');
+        }));
+
+        /* =========================================================
+           NAVBAR SHADOW ON SCROLL
+           ========================================================= */
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 12) { navbar.classList.add('nav-shadow'); }
+            else { navbar.classList.remove('nav-shadow'); }
+        });
+
+        /* =========================================================
+           CONTACT FORM VALIDATION
+           ========================================================= */
+        const form = document.getElementById('contactForm');
+        const successMsg = document.getElementById('formSuccess');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let valid = true;
+
+            const nameInput = document.getElementById('fullName');
+            const emailInput = document.getElementById('email');
+            const messageInput = document.getElementById('message');
+
+            const nameError = nameInput.closest('div').querySelector('.field-error');
+            const emailError = emailInput.closest('div').querySelector('.field-error');
+            const messageError = messageInput.closest('div').querySelector('.field-error');
+
+            [nameInput, emailInput, messageInput].forEach(i => i.classList.remove('border-red-500'));
+            [nameError, emailError, messageError].forEach(e => e.classList.add('hidden'));
+
+            if (!nameInput.value.trim()) {
+                valid = false;
+                nameInput.classList.add('border-red-500');
+                nameError.classList.remove('hidden');
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(emailInput.value.trim())) {
+                valid = false;
+                emailInput.classList.add('border-red-500');
+                emailError.classList.remove('hidden');
+            }
+
+            if (!messageInput.value.trim()) {
+                valid = false;
+                messageInput.classList.add('border-red-500');
+                messageError.classList.remove('hidden');
+            }
+
+            if (valid) {
+                successMsg.classList.remove('hidden');
+                form.reset();
+                setTimeout(() => successMsg.classList.add('hidden'), 5000);
+            }
+        });
+
+        /* =========================================================
+           SCROLL REVEAL FOR SECTIONS
+           ========================================================= */
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fadeInUp');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.feature-card').forEach(card => revealObserver.observe(card));
+    </script>
+
+</body>
+
+</html>
